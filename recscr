@@ -1,6 +1,8 @@
 #! /bin/bash
 
 WAIT_TIME=4
+RECONNECTING_WAIT_TIME=7
+INTERFACE=eth0
 
 while test $# -gt 0
 do
@@ -14,6 +16,27 @@ do
 			WAIT_TIME=$2
 			shift
 			;;
+		-r)
+			if [[ -z "$2" ]]
+			then
+				echo "Missing param after -r reconnecting wait time"
+				exit 1
+			fi
+			RECONNECTING_WAIT_TIME=$2
+			shift
+			;;
+		-i)
+			if [[ -z "$2" ]]
+			then
+				echo "Missing interface name"
+				exit 1
+			fi
+			INTERFACE=$2
+			shift
+			;;
+		*)
+			echo "Unknown parameter $1"
+			exit 1
 	esac
 	shift
 done
@@ -26,7 +49,8 @@ do
 		sleep $WAIT_TIME
 	else
 		echo "Network check failed, reconnecting"
-		ifconfig eth0 down
-		ifconfig eth0 up
+		ifconfig $INTERFACE down
+		ifconfig $INTERFACE up
+		sleep $RECONNECTING_WAIT_TIME
 	fi
 done
