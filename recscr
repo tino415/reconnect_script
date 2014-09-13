@@ -3,7 +3,7 @@
 while true
 do
 	echo "Network check"
-	ping -c 1 www.google.com &> /dev/null || (
+	ping -c 1 -W 4 www.google.com &> /dev/null || (
 		echo "Network check failed, reconnecting"
 		ifconfig eth0 down
 	)
