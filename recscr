@@ -1,11 +1,29 @@
 #! /bin/bash
 
+WAIT_TIME=4
+
+while test $# -gt 0
+do
+	case $1 in
+		-w)
+			if [[ -z "$2" ]]
+			then
+				echo "Missing param after -w wait time"
+				exit 1
+			fi
+			WAIT_TIME=$2
+			shift
+			;;
+	esac
+	shift
+done
+
 while true
 do
 	if ping -c 1 www.google.com &> /dev/null
 	then
 		echo "Network check succed"
-		sleep 4
+		sleep $WAIT_TIME
 	else
 		echo "Network check failed, reconnecting"
 		ifconfig eth0 down
