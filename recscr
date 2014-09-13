@@ -2,10 +2,12 @@
 
 while true
 do
-	echo "Network check"
-	ping -c 1 -W 4 www.google.com &> /dev/null || (
+	if ping -c 1 www.google.com &> /dev/null
+	then
+		echo "Network check succed"
+		sleep 4
+	else
 		echo "Network check failed, reconnecting"
 		ifconfig eth0 down
-	)
-	sleep 4
+	fi
 done
