@@ -50,7 +50,7 @@ do
 	else
 		echo "Network check failed, reconnecting"
 		ifconfig $INTERFACE down
-		ifconfig $INTERFACE up
 		sleep $RECONNECTING_WAIT_TIME
+		ifconfig $INTERFACE up
 	fi
 done
