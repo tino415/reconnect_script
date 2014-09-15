@@ -2,6 +2,7 @@
 
 WAIT_TIME=4
 RECONNECTING_WAIT_TIME=7
+RESPONSE_WAIT_TIME=
 INTERFACE=eth0
 
 while test $# -gt 0
@@ -14,6 +15,15 @@ do
 				exit 1
 			fi
 			WAIT_TIME=$2
+			shift
+			;;
+		-W)
+			if [[ -z "$2" ]]
+			then
+				echo "Missing param after -W response wait time"
+				exit 1
+			fi
+			RESPONSE_WAIT_TIME="-W $2"
 			shift
 			;;
 		-r)
@@ -43,7 +53,7 @@ done
 
 while true
 do
-	if ping -c 1 www.google.com &> /dev/null
+	if ping -c 1 $RESPONSE_WAIT_TIME www.google.com &> /dev/null
 	then
 		echo "Network check succed"
 		sleep $WAIT_TIME
