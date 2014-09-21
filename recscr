@@ -1,7 +1,7 @@
 #! /bin/bash
 
 WAIT_TIME=2
-RECONNECTING_WAIT_TIME=4
+RECONNECTING_WAIT_TIME=7
 INTERFACE=eth0
 
 while test $# -gt 0
