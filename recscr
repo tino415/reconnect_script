@@ -1,7 +1,7 @@
 #! /bin/bash
 
-WAIT_TIME=2
-RECONNECTING_WAIT_TIME=7
+WAIT_TIME=4
+RECONNECTING_WAIT_TIME=4
 INTERFACE=eth0
 
 while test $# -gt 0
@@ -22,7 +22,7 @@ do
 				echo "Missing param after -W response wait time"
 				exit 1
 			fi
-			RESPONSE_WAIT_TIME="-w $2"
+			RESPONSE_WAIT_TIME="-w $2 -W $2"
 			shift
 			;;
 		-r)
@@ -53,7 +53,10 @@ done
 while true
 do
 	echo pinging...
-	if ping -c 1 $RESPONSE_WAIT_TIME 74.125.24.94 &> /dev/null
+	ping -c 1 $RESPONSE_WAIT_TIME 74.125.24.94 &> /dev/null &
+	PID=$!
+	echo $PID
+	if ping -c 1 $RESPONSE_WAIT_TIME 74.125.24.94
 	then
 		echo "Network check succed"
 		sleep $WAIT_TIME
