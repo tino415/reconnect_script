@@ -53,20 +53,18 @@ done
 while true
 do
 	echo pinging...
-	ping -c 1 $RESPONSE_WAIT_TIME 74.125.24.94 &> /dev/null &
-	PID=$!
-	echo $PID
-	if ping -c 1 $RESPONSE_WAIT_TIME 74.125.24.94
+	#ping -c 1 -w 2 $RESPONSE_WAIT_TIME 74.125.24.94 &> /dev/null &
+	#PID=$!
+	#echo $PID
+	if ping -c 1 -w 3 $RESPONSE_WAIT_TIME 74.125.24.94
 	then
 		echo "Network check succed"
 		sleep $WAIT_TIME
 	else
 		echo "Network check failed, reconnecting"
-		ifconfig $INTERFACE down
+		service network-manager restart
 		echo "Recconect wait"
 		sleep $RECONNECTING_WAIT_TIME
-		echo "Recconect wait done"
-		ifconfig $INTERFACE up
 		echo "Recconect done"
 	fi
 done
